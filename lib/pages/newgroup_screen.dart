@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
+import './shuffledgroup_screen.dart';
 
 class MyGroupScreen extends StatelessWidget {
   @override
@@ -38,6 +39,34 @@ class NewGroupScreenState extends State<NewGroupScreen> {
     super.dispose();
   }
 
+  void shuffle() {
+    groupSize = int.parse(groupNumberController.text);
+    rowSize = int.parse(rowNumberController.text);
+    List<int> groupArray = new List(groupSize);
+    for(var i = 0; i < groupSize; i++) {
+      groupArray[i] = i;
+    }
+    for(var i = 0; i < groupSize; i++) {
+      var random = new Random();
+      /*
+        * Generates a positive random integer uniformly distributed on the range
+        * from [min], inclusive, to [max], exclusive.
+        */
+      int swap = 0 + random.nextInt(groupSize);
+      int temp = groupArray[i];
+      groupArray[i] = groupArray[swap];
+      groupArray[swap] = temp;
+    }
+    for(var i = 0; i < groupSize; i++) {
+      print(groupArray[i]);
+    }
+    Navigator.of(context).push(
+      new MaterialPageRoute<void>(
+        builder: (BuildContext context) => new MyShuffleGroup(object:groupSize)
+      )
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     // Build a Form widget using the _formKey we created above
@@ -69,38 +98,9 @@ class NewGroupScreenState extends State<NewGroupScreen> {
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
                 child: RaisedButton(
                   onPressed: () {
-                    groupSize = int.parse(groupNumberController.text);
-                    rowSize = int.parse(rowNumberController.text);
-                    List<int> groupArray = new List(groupSize);
-                    for(var i = 0; i < groupSize; i++) {
-                      groupArray[i] = i;
-                    }
-                    for(var i = 0; i < groupSize; i++) {
-                      var random = new Random();
-                      /*
-                       * Generates a positive random integer uniformly distributed on the range
-                       * from [min], inclusive, to [max], exclusive.
-                       */
-                      int swap = 0 + random.nextInt(groupSize);
-                      int temp = groupArray[i];
-                      groupArray[i] = groupArray[swap];
-                      groupArray[swap] = temp;
-                    }
-                    for(var i = 0; i < groupSize; i++) {
-                      print(groupArray[i]);
-                    }
+                    shuffle();
                     //todo: set up pairings view
                     FocusScope.of(context).requestFocus(new FocusNode()); //dismiss keyboard
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        // return object of type Dialog
-                        return AlertDialog(
-                          title: new Text(groupNumberController.text),
-                          content: new Text(rowNumberController.text),
-                        );
-                      },
-                    );
                   },
                   child: Text('Submit'),
                 ),
