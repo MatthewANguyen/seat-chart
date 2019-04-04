@@ -1,10 +1,27 @@
 import 'package:flutter/material.dart';
 
 class MyShuffleGroup extends StatelessWidget {
-  var object;
+  final object;
   MyShuffleGroup({
     this.object
   });
+
+  Widget seat() {
+    var array = object.groupArray;
+    print(object.groupArray);
+    return ListView(
+      padding: const EdgeInsets.all(16.0),
+      children:<Widget>[
+        Text(array[0].toString()),
+        Text(array[1].toString())
+      ]
+    );
+  }
+
+  Widget row() {
+    var row = object.rowSize;
+  }
+
   @override
   Widget build(BuildContext context) {
     final appTitle = 'Form Validation Demo';
@@ -14,7 +31,7 @@ class MyShuffleGroup extends StatelessWidget {
         title: Text(appTitle),
       ),
       body: Container(
-        child: Text(object.toString()),
+        child: seat(),
       ),
     );
   }

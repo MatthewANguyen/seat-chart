@@ -2,6 +2,15 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 import './shuffledgroup_screen.dart';
 
+class Data{
+  final groupArray;
+  final rowSize;
+  const Data({
+    this.groupArray,
+    this.rowSize
+  });
+}
+
 class MyGroupScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -62,7 +71,7 @@ class NewGroupScreenState extends State<NewGroupScreen> {
     }
     Navigator.of(context).push(
       new MaterialPageRoute<void>(
-        builder: (BuildContext context) => new MyShuffleGroup(object:groupSize)
+        builder: (BuildContext context) => new MyShuffleGroup(object:Data(groupArray: groupArray, rowSize: rowSize))
       )
     );
   }
